@@ -6,7 +6,7 @@ export class Hello extends React.Component<HelloProps, {}> {
     
     render() {
         return (
-            <h1>Hello!  {this.props.compiler} and {this.props.framework}! This is a test.</h1>
+            <h1>Hello!  {this.props.compiler} and {this.props.framework}! This is a test. Test me</h1>
         );
     }
 }

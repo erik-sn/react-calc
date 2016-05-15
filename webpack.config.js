@@ -1,4 +1,5 @@
 var webpack = require("webpack");
+var path = require('path');
 
 module.exports = {
   entry: [
@@ -7,7 +8,9 @@ module.exports = {
     './src/index.tsx'
   ],
   output: {
-      filename: "./dist/bundle.js",
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
@@ -23,7 +26,8 @@ module.exports = {
   module: {
       loaders: [
           // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-          { test: /\.tsx?$/, loaders: ['react-hot', 'ts-loader'] }
+          { test: /\.tsx?$/, loaders: ['react-hot', 'ts-loader'] },
+          
       ],
 
       preLoaders: [
