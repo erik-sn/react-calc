@@ -7,7 +7,7 @@ describe('App', () => {
    
   });
 
-  it('shows a comment box', () => {
+  it('', () => {
     
   });
 
