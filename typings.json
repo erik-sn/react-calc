@@ -1,6 +1,14 @@
 {
   "ambientDependencies": {
+    "assert": "registry:dt/assert#0.0.0+20160317120654",
+    "chai": "registry:dt/chai#3.4.0+20160317120654",
+    "enzyme": "registry:dt/enzyme#1.2.0+20160512040431",
+    "history": "registry:dt/history#1.8.0+20160316155526",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "node": "registry:dt/node#6.0.0+20160514165920",
     "react": "registry:dt/react#0.14.0+20160423065914",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040"
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "sinon": "registry:dt/sinon#1.16.0+20160317120654",
+    "webpack": "registry:dt/webpack#1.12.9+20160321060707"
   }
 }
