@@ -1,5 +1,5 @@
-import { assert } = require('chai');
-import { shallow, render } = require('enzyme');
+import { assert } from 'chai';
+import { shallow, render } from 'enzyme';
 import * as sinon from 'sinon';
 
 import * as React from 'react';
