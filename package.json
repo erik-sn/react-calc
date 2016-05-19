@@ -1,15 +1,15 @@
 {
-  "name": "processworkshop",
+  "name": "react-boilerplate",
   "version": "1.0.0",
-  "description": "Navigational Hierarchy framework",
+  "description": "React Boilerplate with support for Redux, Hot Reloading, Routing, Isomorphic rendering, ESLint and SASS",
   "main": "index.js",
   "repository": "",
   "scripts": {
     "dev": "node server.js",
-    "start": "nodemon server.production.js --exec babel-node",
-    "build": "webpack -p --config webpack.production.config.js --progress --profile --colors",
+    "test:watch": "npm run test -- --watch",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
-    "test:watch": "npm run test -- --watch"
+    "build": "webpack -p --config webpack.production.config.js --progress --profile --colors",
+    "start": "nodemon server.production.js --exec babel-node"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "babel-preset-react": "^6.1.18",
     "chai": "^3.5.0",
     "chai-jquery": "^2.0.0",
+    "compression": "^1.6.2",
     "css-loader": "^0.23.1",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "^9.0.1",
@@ -32,6 +33,7 @@
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
+    "morgan": "^1.7.0",
     "nock": "^8.0.0",
     "node-sass": "^3.7.0",
     "nodemon": "^1.9.2",
@@ -49,6 +51,6 @@
     "react-dom": "^0.14.8",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
-    "redux": "^3.0.4",
+    "redux": "^3.0.4"
   }
 }

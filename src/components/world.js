@@ -1,12 +1,18 @@
-import * as React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export interface HelloProps { compiler: string; framework: string; }
+class World extends Component {
 
-export default class Hello extends React.Component<HelloProps, {}> {
-    
-    render() {
-        return (
-            <h1>Hello!  {this.props.compiler} and {this.props.framework}! This is a test. Test me</h1>
-        );
-    }
+  render() {
+    return (
+      <div className="hello-container">Hello, World</div>
+    );
+  }
+
 }
+
+function mapStateToProps(state) {
+  return { state };
+}
+
+export default connect(mapStateToProps, { })(World);

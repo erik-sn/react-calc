@@ -23,7 +23,6 @@ import http from 'http';
 import React from 'react';
 import { RouterContext, match } from 'react-router';
 import { renderToString } from 'react-dom/server';
-import promise from 'redux-promise';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -58,7 +57,7 @@ app.use('*', function(req, res) {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {        
-      const createStoreWithMiddleware = applyMiddleware(promise)(createStore); 
+      const createStoreWithMiddleware = applyMiddleware()(createStore); 
       const html = renderToString(<Provider store={createStoreWithMiddleware(reducers)} ><RouterContext { ...renderProps } /></Provider>);
       res.status(200).send(renderFullPage(html));
     } else {
@@ -90,13 +89,7 @@ function renderFullPage(html) {
     <html>
       <head>
         <link rel="stylesheet" href="/static/bundle.min.css">
-        <link href='https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
-        <style type="text/css">  
-          body {  
-            background: #FAFAFA url("/static/img/background.png") no-repeat fixed;
-          }
-        </style>
       </head>
       <body id="app-body">
         <div class="react-container">${html}</div>
