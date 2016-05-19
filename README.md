@@ -9,5 +9,4 @@
 - [Isomorphic/Server Side Rendering](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/)
 - [Mocha/Chai Testing](https://mochajs.org/)
 - [SASS](http://sass-lang.com/)
-- [React.js](https://facebook.github.io/react/)
 - [ESlint](http://eslint.org/)
