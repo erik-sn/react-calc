@@ -1,47 +1,74 @@
-var webpack = require("webpack");
+/**
+ * This config file is specific to development. When we run "node server.js"
+ * the server.js file uses the WebpackDevServer with this file as a configuration.
+ * 
+ * This webpack is configured for hot reloading and SASS transpiling.
+ */
+
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
+  // see https://webpack.github.io/docs/configuration.html#devtool
+  devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
-    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    './src/index.tsx'
+    'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/only-dev-server',
+    './src/index'
   ],
   output: {
+    // this output is virtual/in memory when using WebpackDevServer
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/dist/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    // enable hot module replacement
+    new webpack.HotModuleReplacementPlugin(),
+    
+    
+    /**
+   *  This plugin is necessary because we are using a SASS compiler through
+   *  webpack on the client side. Because our JS/ES6 code is also loaded through 
+   *  node in this server file, we will get syntax errors if the node server
+   *  attemps to parse the css/scss files.
+   * 
+   *  To bypass this, we set this process.env variable as true here and delete 
+   *  it in server.production.js. Then we only import/require the css/scss files 
+   *  in React components if this variable exists (and is true). 
+   * 
+   *  This is unique to Isomorphic applications, see here: 
+   *      http://stackoverflow.com/a/30355080/4396787
+   *  
+   */
+    new webpack.DefinePlugin({
+      'process.env': {
+        BROWSER: JSON.stringify(true)
+      }
+    })
   ],
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
-
-  resolve: {
-      // Add '.ts' and '.tsx' as resolvable extensions.
-      extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
-  },
-
   module: {
-      loaders: [
-          // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-          { test: /\.tsx?$/, loaders: ['react-hot', 'ts-loader'] },
-          
-      ],
-
-      preLoaders: [
-          // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-          { test: /\.js$/, loader: "source-map-loader" }
-      ]
-  },
-
-  // When importing a module whose path matches one of the following, just
-  // assume a corresponding global variable exists and use that instead.
-  // This is important because it allows us to avoid bundling all of our
-  // dependencies, which allows browsers to cache those libraries between builds.
-  externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
-  },
+    // react-hot MUST be before babel
+    loaders: [{
+      test: /\.js$/,
+      loaders: ['react-hot', 'babel'],
+      include: path.join(__dirname, 'src')
+    },
+    {
+      /*
+       *  test matches all SASS files. Transpiler reads right to left: takes in sass
+       *  turns it into css, and then adds it as <style> tags to the html.
+       * 
+       * This setup allows for hot reloading of CSS because the <style> tags are 
+       * reloaded on each save.
+       */
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass']
+    },
+    {
+      test: /\.jpe?g$|\.gif$|\.png$/i,
+      loader: 'file-loader?name=/img/[name].[ext]'
+    }
+    ]
+  }
 };
