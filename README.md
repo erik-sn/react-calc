@@ -10,3 +10,5 @@
 - [Mocha/Chai Testing](https://mochajs.org/)
 - [SASS](http://sass-lang.com/)
 - [ESlint](http://eslint.org/)
+
+Need to add thunk
