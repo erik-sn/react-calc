@@ -54,6 +54,6 @@
     "redux": "^3.0.4",
     "webpack-isomorphic-tools": "^2.3.0",
     "nodemon": "~1.9.2",
-    "babel-cli": "^6.9.0",
+    "babel-cli": "^6.9.0"
   }
 }
