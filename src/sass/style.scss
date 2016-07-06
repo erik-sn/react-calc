@@ -17,6 +17,10 @@ $secondary: #758FA8;
   box-shadow: 0px 0px $pixels 0px rgba(0,0,0,0.75);
 }
 
+body {
+  background-color: #82A3C8;
+}
+
 #frame {
   @include blur(10px);
   position: absolute;
@@ -26,21 +30,26 @@ $secondary: #758FA8;
   right: 0;
   margin: auto;
   width: 400px;
-  height: 475px;
+  height: 460px;
   background-color: white;
+}
+
+#numpad {
+  padding-left: 6px;
 }
 
 .button {
   @include noSelect();
   @include blur(2px);
-  margin: 5px;
+  margin: 3px;
+  font-size: 16px;
 }
 
 #display {
   @include blur(1px);
   padding: 15px;
   margin: 10px;
-  height: 100px;  
+  height: 75px;  
   background-color: yellow;
   
   background: #dbe8f7; /* Old browsers */
@@ -61,5 +70,5 @@ $secondary: #758FA8;
   text-align: right;
   padding: 4px 15px 4px 4px;
   height: 45px;
-  font-size: 32px;
+  font-size: 35px;
 }

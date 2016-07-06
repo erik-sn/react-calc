@@ -13,7 +13,7 @@ export default class Application extends Component {
     super(props);
     this.state = {
       height: '50px',
-      width: '22%',
+      width: '91px',
       display: '',
     };
     this.click = this.click.bind(this);
@@ -29,10 +29,10 @@ export default class Application extends Component {
     return (
       <div id="app-container">
         <div id="frame">
+          <div id="display-container">
+            <Display text={this.state.display} />
+          </div>
           <div id="numpad">
-            <div id="display-container">
-              <Display text={this.state.display} />
-            </div>
             <div className="button-row">
               <Button click={this.click} label="back" height={height} width={width} />
               <Button click={this.click} label="Clear" height={height} width={width} />
@@ -58,12 +58,12 @@ export default class Application extends Component {
               <Button click={this.click} label="-" height={height} width={width} />
             </div>
             <div className="button-row">
-              <Button click={this.click} label="0" height={height} width={'46%'} />
+              <Button click={this.click} label="0" height={height} width={'188'} />
               <Button click={this.click} label="." height={height} width={width} />
               <Button click={this.click} label="+" height={height} width={width} />
             </div>
             <div className="button-row">
-              <Button click={this.click} label="Compute" height="40" width="96%" />
+              <Button click={this.click} label="Compute" height="40" width="382" />
             </div>
           </div>
         </div>
