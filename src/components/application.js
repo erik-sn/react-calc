@@ -17,27 +17,77 @@ export default class Application extends Component {
       display: '',
     };
     this.click = this.click.bind(this);
+    this.press = this.press.bind(this);
+    this.updateDisplay = this.updateDisplay.bind(this);
   }
 
-  click(label) {
-    this.setState({ display: this.state.display + label });
+  componentWillMount() {    
+    document.addEventListener('keydown', this.press, false);
+  }
+
+  updateDisplay(val) {
+    const numReg = /[1-9.]/;
+    const operationReg = /[-+()\^!*\/]|^Backspace$|^Escape$|^Enter$|^sqrt$|^negate$/;
+    if (val.match(numReg)) {
+      this.updateNumber(val);
+    } else if (val.match(operationReg)) {
+      this.updateOperation(val);
+    }
+  }
+
+  updateNumber(val) {
+    this.setState({ display: this.state.display + val });
+  }
+
+  updateOperation(val) {
+    const noSpace = /[()\^!]/;
+    if (val === 'Enter') {
+      // calculate
+      this.setState({ display: '' });
+    } else if (val === 'Escape') {
+      this.setState({ display: '' });
+    } else if (val === 'Backspace') {
+      this.setState({ display: this.state.display.slice(0, -1) });
+    } else if (val.match(noSpace)) {
+      this.setState({ display: `${this.state.display}${val}` });
+    }else {
+      this.setState({ display: `${this.state.display} ${val} ` });
+    }
+  }
+
+  press(event) {
+    event.preventDefault();
+    const key = event.key;
+    this.updateDisplay(key);
+  }
+
+  click(input) {
+    this.updateDisplay(input);
   }
 
   render() {
     // standard height & width
-    const { height, width } = this.state;
+    const { height, width, equation } = this.state;
+    let display = this.state.display;
+    display = display.length > 18 ? `...${display.slice(display.length - 18)}` : display;
     return (
       <div id="app-container">
         <div id="frame">
           <div id="display-container">
-            <Display text={this.state.display} />
+            <Display equation={equation} text={display} />
           </div>
           <div id="numpad">
             <div className="button-row">
-              <Button click={this.click} label="back" height={height} width={width} />
-              <Button click={this.click} label="Clear" height={height} width={width} />
-              <Button click={this.click} label="negate" height={height} width={width} />
-              <Button click={this.click} label="sqrt" height={height} width={width} />
+              <Button click={this.click} value="Backspace" label="back" height={height} width={width} />
+              <Button click={this.click} value="Escape" label="Clear" height={height} width={width} />
+              <Button click={this.click} value="Negate" label="negate" height={height} width={width} />
+              <Button click={this.click} value="Sqrt" label="sqrt" height={height} width={width} />
+            </div>
+            <div className="button-row">
+              <Button click={this.click} label="(" height={height} width={width} />
+              <Button click={this.click} label=")" height={height} width={width} />
+              <Button click={this.click} label="^" height={height} width={width} />
+              <Button click={this.click} label="!" height={height} width={width} />
             </div>
             <div className="button-row">
               <Button click={this.click} label="7" height={height} width={width} />
@@ -61,9 +111,6 @@ export default class Application extends Component {
               <Button click={this.click} label="0" height={height} width={'188'} />
               <Button click={this.click} label="." height={height} width={width} />
               <Button click={this.click} label="+" height={height} width={width} />
-            </div>
-            <div className="button-row">
-              <Button click={this.click} label="Compute" height="40" width="382" />
             </div>
           </div>
         </div>

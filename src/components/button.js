@@ -8,7 +8,7 @@ export default class Button extends Component {
   }
 
   onClick() {
-    this.props.click(this.props.label);
+    this.props.click(this.props.value ? this.props.value : this.props.label);
   }
 
   render() {
