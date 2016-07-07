@@ -15,7 +15,7 @@ export default class Button extends Component {
     const { label, height, width } = this.props;
     return (
       <button
-        className="button col-xs-3"
+        className="button"
         style={{ height, width }}
         onClick={this.onClick}
       >
