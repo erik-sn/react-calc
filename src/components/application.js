@@ -18,10 +18,12 @@ export default class Application extends Component {
     };
     this.click = this.click.bind(this);
     this.press = this.press.bind(this);
+    this.pressDown = this.pressDown.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
   }
 
   componentWillMount() {
+    document.addEventListener('keydown', this.pressDown, false);
     document.addEventListener('keypress', this.press, false);
   }
 
@@ -31,17 +33,35 @@ export default class Application extends Component {
     this.updateDisplay(String.fromCharCode(code));
   }
 
+  /**
+   * Second press event is necessary to catch "keypress" events, keydown
+   * does not alert on backspace/escape. Keydown events override keypress
+   * events.
+   * @param  {object} e
+   */
+  pressDown(e) {
+    if (e.code === 'Backspace' || e.code === 'Escape') {
+      e.preventDefault();
+      this.updateDisplay(e.code);   
+    }
+  }
+
   click(input) {
     this.updateDisplay(input);
   }
 
-  updateDisplay(val) {
+  /**
+   * Determine if the input is a value or an operation, and update the
+   * display accordingly
+   * @param  {string} input - key or click from the user
+   */
+  updateDisplay(input) {
     const noSpace = /[0-9.()!\^]|^sqrt$/;
     const operationReg = /[-+*\/]|^Backspace$|^Escape$|^Negate$/;
-    if (val.match(noSpace)) {
-      this.setState({ display: this.state.display + val });
-    } else if (val.match(operationReg)) {
-      this.updateOperation(val);
+    if (input.match(noSpace)) {
+      this.setState({ display: this.state.display + input });
+    } else if (input.match(operationReg)) {
+      this.updateOperation(input);
     }
   }
 
@@ -110,7 +130,7 @@ export default class Application extends Component {
   }
 
   render() {
-    const { height, width, display, negated } = this.state;
+    const { display, negated } = this.state;
     const text = this.formatDisplay(display, 20);
     const result = this.calculate(display, negated);
 
