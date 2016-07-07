@@ -15,73 +15,119 @@ export default class Application extends Component {
       height: '50px',
       width: '91px',
       display: '',
+      result: '',
+      negated: false,
     };
     this.click = this.click.bind(this);
     this.press = this.press.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
   }
 
-  componentWillMount() {    
-    document.addEventListener('keydown', this.press, false);
+  componentWillMount() {
+    document.addEventListener('keypress', this.press, false);
   }
 
-  updateDisplay(val) {
-    const numReg = /[1-9.]/;
-    const operationReg = /[-+()\^!*\/]|^Backspace$|^Escape$|^Enter$|^sqrt$|^negate$/;
-    if (val.match(numReg)) {
-      this.updateNumber(val);
-    } else if (val.match(operationReg)) {
-      this.updateOperation(val);
-    }
-  }
-
-  updateNumber(val) {
-    this.setState({ display: this.state.display + val });
-  }
-
-  updateOperation(val) {
-    const noSpace = /[()\^!]/;
-    if (val === 'Enter') {
-      // calculate
-      this.setState({ display: '' });
-    } else if (val === 'Escape') {
-      this.setState({ display: '' });
-    } else if (val === 'Backspace') {
-      this.setState({ display: this.state.display.slice(0, -1) });
-    } else if (val.match(noSpace)) {
-      this.setState({ display: `${this.state.display}${val}` });
-    }else {
-      this.setState({ display: `${this.state.display} ${val} ` });
-    }
-  }
-
-  press(event) {
-    event.preventDefault();
-    const key = event.key;
-    this.updateDisplay(key);
+  press(e) {
+    e.preventDefault();
+    const code = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+    this.updateDisplay(String.fromCharCode(code));
   }
 
   click(input) {
     this.updateDisplay(input);
   }
 
+  updateDisplay(val) {
+    const noSpace = /[0-9.()!\^]|^sqrt$/;
+    const operationReg = /[-+*\/]|^Backspace$|^Escape$|^Negate$/;
+    if (val.match(noSpace)) {
+      this.setState({ display: this.state.display + val });
+    } else if (val.match(operationReg)) {
+      this.updateOperation(val);
+    }
+  }
+
+  /**
+   * receive an operation and update the state
+   * @param  {any} val
+   */
+  updateOperation(val) {
+    if (val === 'Escape') {
+      this.setState({ display: '' });
+    } else if (val === 'Backspace') {
+      this.setState({ display: this.state.display.slice(0, -1) });
+    } else if (val === 'Negate') {
+      this.setState({ negated: !this.state.negated });
+    } else {
+      this.setState({ display: `${this.state.display} ${val} ` });
+    }
+  }
+
+  /**
+   * Format a string and attempt to calculate the mathematical evaluation
+   * @param  {string} string from the display
+   * @return {string} result of math calculation
+   */
+  calculate(input, negated) {
+    try {
+      let processed = input.replace(/ /g, '')
+      .replace(/(.)[\^](.)/g, 'Math.pow($1, $2)')
+      .replace(/sqrt[(](.)[)]/g, 'Math.sqrt($1)')
+      .replace(/(\d+)!/g, 'this.factorial($1)');
+      processed = negated ? `-1*(${processed})` : processed;
+      
+      console.log(processed);
+      return eval(processed);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  /**
+   * return the factorial of an input
+   * @param  {number} n
+   */
+  factorial(n) {
+    try {
+      let result = 1;
+      while (n > 1) {
+        result *= n;
+        n--;
+      }
+      return result;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  /**
+   * format string so that only n amount of characters exist - if this limit
+   * is exceeded prepend an ellipse.
+   * @param  {string} input - input to be formatted
+   * @param  {number} n - number of characters to limit string to
+   * @return {string} - formatted string
+   */
+  formatDisplay(input, n) {
+    return input.length > n ? `...${input.slice(input.length - n)}` : input;
+  }
+
   render() {
-    // standard height & width
-    const { height, width, equation } = this.state;
-    let display = this.state.display;
-    display = display.length > 18 ? `...${display.slice(display.length - 18)}` : display;
+    const { height, width, display, negated } = this.state;
+    const text = this.formatDisplay(display, 20);
+    const result = this.calculate(display, negated);
+
     return (
       <div id="app-container">
         <div id="frame">
           <div id="display-container">
-            <Display equation={equation} text={display} />
+            <Display result={result} text={text} />
           </div>
           <div id="numpad">
             <div className="button-row">
               <Button click={this.click} value="Backspace" label="back" height={height} width={width} />
               <Button click={this.click} value="Escape" label="Clear" height={height} width={width} />
               <Button click={this.click} value="Negate" label="negate" height={height} width={width} />
-              <Button click={this.click} value="Sqrt" label="sqrt" height={height} width={width} />
+              <Button click={this.click} value="sqrt(" label="sqrt" height={height} width={width} />
             </div>
             <div className="button-row">
               <Button click={this.click} label="(" height={height} width={width} />

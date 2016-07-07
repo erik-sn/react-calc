@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 export default class Display extends Component {
 
   render() {
-    const { text, equation } = this.props;
-    console.log(text);
+    const { text, result } = this.props;
     return (
       <div id="display">
         <div id="equation-text">
-          {equation}
+          {result ? result : undefined}
         </div>
         <div id="current-text">
           {text}
