@@ -4,7 +4,7 @@ if (process.env.BROWSER) {
 
 import React, { Component } from 'react';
 
-import Button from './button';
+import Numpad from './numpad';
 import Display from './display';
 
 export default class Application extends Component {
@@ -12,8 +12,6 @@ export default class Application extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: '50px',
-      width: '91px',
       display: '',
       result: '',
       negated: false,
@@ -48,18 +46,18 @@ export default class Application extends Component {
   }
 
   /**
-   * receive an operation and update the state
-   * @param  {any} val
+   * receive an operation and update the display state
+   * @param  {string} operation
    */
-  updateOperation(val) {
-    if (val === 'Escape') {
+  updateOperation(operation) {
+    if (operation === 'Escape') {
       this.setState({ display: '' });
-    } else if (val === 'Backspace') {
+    } else if (operation === 'Backspace') {
       this.setState({ display: this.state.display.slice(0, -1) });
-    } else if (val === 'Negate') {
+    } else if (operation === 'Negate') {
       this.setState({ negated: !this.state.negated });
     } else {
-      this.setState({ display: `${this.state.display} ${val} ` });
+      this.setState({ display: `${this.state.display} ${operation} ` });
     }
   }
 
@@ -122,42 +120,8 @@ export default class Application extends Component {
           <div id="display-container">
             <Display result={result} text={text} />
           </div>
-          <div id="numpad">
-            <div className="button-row">
-              <Button click={this.click} value="Backspace" label="back" height={height} width={width} />
-              <Button click={this.click} value="Escape" label="Clear" height={height} width={width} />
-              <Button click={this.click} value="Negate" label="negate" height={height} width={width} />
-              <Button click={this.click} value="sqrt(" label="sqrt" height={height} width={width} />
-            </div>
-            <div className="button-row">
-              <Button click={this.click} label="(" height={height} width={width} />
-              <Button click={this.click} label=")" height={height} width={width} />
-              <Button click={this.click} label="^" height={height} width={width} />
-              <Button click={this.click} label="!" height={height} width={width} />
-            </div>
-            <div className="button-row">
-              <Button click={this.click} label="7" height={height} width={width} />
-              <Button click={this.click} label="8" height={height} width={width} />
-              <Button click={this.click} label="9" height={height} width={width} />
-              <Button click={this.click} label="/" height={height} width={width} />
-            </div>
-            <div className="button-row">
-              <Button click={this.click} label="4" height={height} width={width} />
-              <Button click={this.click} label="5" height={height} width={width} />
-              <Button click={this.click} label="6" height={height} width={width} />
-              <Button click={this.click} label="*" height={height} width={width} />
-            </div>
-            <div className="button-row">
-              <Button click={this.click} label="1" height={height} width={width} />
-              <Button click={this.click} label="2" height={height} width={width} />
-              <Button click={this.click} label="3" height={height} width={width} />
-              <Button click={this.click} label="-" height={height} width={width} />
-            </div>
-            <div className="button-row">
-              <Button click={this.click} label="0" height={height} width={'188'} />
-              <Button click={this.click} label="." height={height} width={width} />
-              <Button click={this.click} label="+" height={height} width={width} />
-            </div>
+          <div id="numpad-container">
+            <Numpad click={this.click} />
           </div>
         </div>
       </div>

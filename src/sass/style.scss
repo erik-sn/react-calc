@@ -40,7 +40,9 @@ body {
 
 .button {
   @include noSelect();
-  @include blur(2px);
+  @include blur(2px);  
+  height: 50px;
+  width: 91px;
   margin: 3px;
   font-size: 16px;
 }
