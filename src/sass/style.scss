@@ -24,6 +24,7 @@ $secondary: #758FA8;
 
 body {
   background-color: #82A3C8;
+  margin: 0px;
 }
 
 #frame {
@@ -37,6 +38,7 @@ body {
   width: 400px;
   height: 467px;
   background-color: white;
+  border-radius: 2px;
 }
 
 #numpad {
@@ -46,19 +48,41 @@ body {
 .button {
   @include noSelect();
   @include blur(2px);  
+  font-family: "Prototype";
+  text-shadow: 0px 0px 1px rgba(150, 150, 150, 0.5);
   height: 50px;
   width: 91px;
   margin: 3px;
-  font-size: 16px;
+  line-height: 50px;
+  font-size: 24px;
+  text-align: center;
+  display: inline-block;
+  
+  background-color: #82A3C8;
+  color: #E0EBF7;
+  border-radius: 0px !important;
+  
+  transition: color 0.35s ease-in-out;
+  transition: background-color 0.35s ease-in-out;
 }
 
+.button:hover {
+  font-weight: bold;
+  color: #82A3C8;  
+  background-color: #E0EBF7;
+  transition: color 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out;  
+}
+
+
 #display {
-  @include blur(1px);
+  @include blur(2px);
   font-family: "Prototype";
+  text-shadow: 0px 0px 5px rgba(150, 150, 150, 0.8);
   padding: 15px;
   margin: 10px;
   height: 75px;  
-  background-color: yellow;
+  color: black;
   
   background: #dbe8f7; /* Old browsers */
   background: -moz-linear-gradient(top,  #dbe8f7 0%, #deedfa 31%, #e1eff9 51%, #ecf5fc 100%);
@@ -79,4 +103,22 @@ body {
   padding: 4px 15px 4px 4px;
   height: 45px;
   font-size: 35px;
+}
+
+#footer {
+  @include blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'sans-serif';
+  background-color: white;
+  text-align: center;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+}
+
+#info-tab {
+  margin-left: 15px;
 }

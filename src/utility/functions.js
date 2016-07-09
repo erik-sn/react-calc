@@ -34,7 +34,10 @@ export function calculate(input, negated) {
       }
     } catch (err) {}
 
-    processed = processed.replace(/sqrt[(](\d+)[)]/g, 'Math.sqrt($1)').replace(/(\d+)!/g, 'factorial($1)');
+    processed = processed.replace(/sqrt[(](\d+)[)]/g, 'Math.sqrt($1)')
+    .replace(/&radic;(\d+)/g, 'Math.sqrt($1)')
+    .replace(/(\d+)!/g, 'factorial($1)');
+
     processed = negated ? `-1*(${processed})` : processed;
     return eval(processed);
   } catch (err) {

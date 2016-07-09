@@ -18,10 +18,10 @@ export default class Numpad extends Component {
     return (
       <div id="numpad">
         <div className="button-row">
-          <Button click={click} value="Backspace" label="back" />
-          <Button click={click} value="Escape" label="Clear" />
-          <Button click={click} value="Negate" label="negate" />
-          <Button click={click} value="sqrt(" label="sqrt" />
+          <Button click={click} value="Backspace" label="&larr;" />
+          <Button click={click} value="Escape" label="C" />
+          <Button click={click} value="Negate" label="&plusmn;" />
+          <Button click={click} value="sqrt(" label="&radic;" />
         </div>
         <div className="button-row">
           <Button click={click} label="(" />

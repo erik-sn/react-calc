@@ -14,13 +14,13 @@ export default class Button extends Component {
   render() {
     const { label, height, width } = this.props;
     return (
-      <button
+      <div
         className="button"
         style={{ height, width }}
         onClick={this.onClick}
       >
         {label}
-      </button>
+      </div>
     );
   }
 }

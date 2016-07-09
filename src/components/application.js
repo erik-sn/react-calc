@@ -15,7 +15,7 @@ export default class Application extends Component {
     this.state = {
       display: '',
       result: '',
-      negated: false,
+      previousState: {},
     };
     this.click = this.click.bind(this);
     this.press = this.press.bind(this);
@@ -58,7 +58,7 @@ export default class Application extends Component {
    */
   updateDisplay(input) {
     const noSpace = /[0-9.()!\^]|^sqrt$/;
-    const operationReg = /[-+*\/]|^Backspace$|^Escape$|^Negate$/;
+    const operationReg = /[-+*\/]|^Backspace$|^Escape$|^Negate$|^√\($/;
     if (input.match(noSpace)) {
       this.setState({ display: this.state.display + input });
     } else if (input.match(operationReg)) {
@@ -107,6 +107,10 @@ export default class Application extends Component {
           <div id="numpad-container">
             <Numpad click={this.click} />
           </div>
+        </div>
+        <div id="footer">
+          <a href="https://github.com/kiresuah/react-calc"><img height="55" src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" alt="github" /></a>
+          <span id="info-tab">Application created by Erik Niehaus</span>
         </div>
       </div>
     );
