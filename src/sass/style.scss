@@ -17,6 +17,11 @@ $secondary: #758FA8;
   box-shadow: 0px 0px $pixels 0px rgba(0,0,0,0.75);
 }
 
+@font-face {
+  font-family:"Prototype";
+  src: url("/static/Prototype.ttf") /* TTF file for CSS3 browsers */
+}
+
 body {
   background-color: #82A3C8;
 }
@@ -49,6 +54,7 @@ body {
 
 #display {
   @include blur(1px);
+  font-family: "Prototype";
   padding: 15px;
   margin: 10px;
   height: 75px;  
@@ -65,7 +71,7 @@ body {
   text-align: right;
   padding: 3px 15px 3px 3px;
   height: 30px;
-  font-size: 18px;
+  font-size: 25px;
 }
 
 #current-text {

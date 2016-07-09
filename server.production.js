@@ -14,14 +14,10 @@
  */
 delete process.env.BROWSER;
 
-import path from 'path';
 import express from 'express';
 import logger from 'morgan';
 import compression from 'compression';
 import http from 'http';
-import { renderToString } from 'react-dom/server';
-
-import Application from './src/components/application';
 
 const app = express(); // delcare application
 const PORT = process.env.PORT || 3000;

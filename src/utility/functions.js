@@ -26,12 +26,16 @@ export function factorial(n) {
  */
 export function calculate(input, negated) {
   try {
-    let processed = input.replace(/ /g, '')
-    .replace(/(.)[\^](.)/g, 'Math.pow($1, $2)')
-    .replace(/sqrt[(](.)[)]/g, 'Math.sqrt($1)')
-    .replace(/(\d+)!/g, 'factorial($1)');
+    let processed = input.replace(/ /g, '');
+    try {
+      const count = processed.match(/\^/g).length;
+      for (let i = 0; i < count; i++) {
+        processed = processed.replace(/(.)[\^](.)/, ($1, $2, $3) => Math.pow($2, $3));
+      }
+    } catch (err) {}
+
+    processed = processed.replace(/sqrt[(](\d+)[)]/g, 'Math.sqrt($1)').replace(/(\d+)!/g, 'factorial($1)');
     processed = negated ? `-1*(${processed})` : processed;
-    
     return eval(processed);
   } catch (err) {
     return null;
