@@ -41,7 +41,9 @@
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "enzyme": "~2.4.1",
+    "sinon": "~1.17.4"
   },
   "dependencies": {
     "morgan": "^1.7.0",

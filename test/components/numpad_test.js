@@ -1,29 +1,23 @@
-import { renderComponent, expect } from '../test_helper';
+import React from 'react';
+import { mount } from 'enzyme';
+import { expect } from 'chai';
+
 import Numpad from '../../src/components/numpad';
 
 describe('Numpad' , () => {
   let component;
-  const click = () => { return 'test working'}
-  const props = {click: click};
+  const click = () => 'testing!';
 
   beforeEach(() => {
-    component = renderComponent(Numpad, props);
-  });
-
-  it('renders something', () => {
-    expect(component).to.exist;     
+    component = mount(<Numpad click={click} />);
   });
 
   it('has 6 rows', () => {
-    expect(component.find('.button-row').length).to.equal(6);
+    expect(component.find('.button-row')).to.have.length(6);
   });
 
   it('has 23 buttons', () => { 
-    expect(component.find('.button').length).to.equal(23);
-  });
-
-  it('does something on click', () => {
-    console.log(component.click())
+    expect(component.find('.button')).to.have.length(23);
   });
   
 });

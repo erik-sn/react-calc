@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 
 import Numpad from './numpad';
 import Display from './display';
+import { calculate } from '../utility/functions';
 
 export default class Application extends Component {
 
@@ -82,43 +83,6 @@ export default class Application extends Component {
   }
 
   /**
-   * Format a string and attempt to calculate the mathematical evaluation
-   * @param  {string} string from the display
-   * @return {string} result of math calculation
-   */
-  calculate(input, negated) {
-    try {
-      let processed = input.replace(/ /g, '')
-      .replace(/(.)[\^](.)/g, 'Math.pow($1, $2)')
-      .replace(/sqrt[(](.)[)]/g, 'Math.sqrt($1)')
-      .replace(/(\d+)!/g, 'this.factorial($1)');
-      processed = negated ? `-1*(${processed})` : processed;
-      
-      console.log(processed);
-      return eval(processed);
-    } catch (err) {
-      return null;
-    }
-  }
-
-  /**
-   * return the factorial of an input
-   * @param  {number} n
-   */
-  factorial(n) {
-    try {
-      let result = 1;
-      while (n > 1) {
-        result *= n;
-        n--;
-      }
-      return result;
-    } catch (err) {
-      return null;
-    }
-  }
-
-  /**
    * format string so that only n amount of characters exist - if this limit
    * is exceeded prepend an ellipse.
    * @param  {string} input - input to be formatted
@@ -132,7 +96,7 @@ export default class Application extends Component {
   render() {
     const { display, negated } = this.state;
     const text = this.formatDisplay(display, 20);
-    const result = this.calculate(display, negated);
+    const result = calculate(display, negated);
 
     return (
       <div id="app-container">
