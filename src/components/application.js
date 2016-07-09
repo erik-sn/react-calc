@@ -33,7 +33,6 @@ export default class Application extends Component {
    */
   componentWillMount() {
     const visited = JSON.parse(window.localStorage.getItem('visited')) || false;
-    console.log('Visited? ', visited);
     if (!visited) {
       this.setState({ showModal: true });
     }
