@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 
 import Numpad from './numpad';
 import Display from './display';
+import Modal from './modal';
 import { calculate } from '../utility/functions';
 
 export default class Application extends Component {
@@ -16,14 +17,26 @@ export default class Application extends Component {
       display: '',
       result: '',
       previousState: {},
+      showModal: false,
     };
     this.click = this.click.bind(this);
     this.press = this.press.bind(this);
     this.pressDown = this.pressDown.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
+  /**
+   * Check to see if this site has been visited, if it hasn't show the modal
+   * that gives the user somem information. Additionally, bind keyboard handlers
+   * to button presses to give calculator functionality.
+   */
   componentWillMount() {
+    const visited = JSON.parse(window.localStorage.getItem('visited')) || false;
+    console.log('Visited? ', visited);
+    if (!visited) {
+      this.setState({ showModal: true });
+    }
     document.addEventListener('keydown', this.pressDown, false);
     document.addEventListener('keypress', this.press, false);
   }
@@ -82,6 +95,11 @@ export default class Application extends Component {
     }
   }
 
+  hideModal() {
+    window.localStorage.setItem('visited', true);
+    this.setState({ showModal: false });
+  }
+
   /**
    * format string so that only n amount of characters exist - if this limit
    * is exceeded prepend an ellipse.
@@ -94,23 +112,33 @@ export default class Application extends Component {
   }
 
   render() {
-    const { display, negated } = this.state;
+    const { display, negated, showModal } = this.state;
     const text = this.formatDisplay(display, 20);
     const result = calculate(display, negated);
+    const modal = (
+      <Modal
+        close={this.hideModal}
+        text={'Welcome to React Calculator, made for Free Code Camp. ' +
+              'Click any of the buttons or use your keyboard to do some math!'}
+      />
+    );
 
     return (
-      <div id="app-container">
-        <div id="frame">
-          <div id="display-container">
-            <Display result={result} text={text} />
+      <div>
+        {showModal ? modal : ''}
+        <div id="app-container" style={showModal ? { opacity: '0.3' } : {}} >
+          <div id="frame">
+            <div id="display-container">
+              <Display result={result} text={text} />
+            </div>
+            <div id="numpad-container">
+              <Numpad click={this.click} />
+            </div>
           </div>
-          <div id="numpad-container">
-            <Numpad click={this.click} />
+          <div id="footer">
+            <a href="https://github.com/kiresuah/react-calc"><img height="55" src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" alt="github" /></a>
+            <span id="info-tab">Application created by Erik Niehaus</span>
           </div>
-        </div>
-        <div id="footer">
-          <a href="https://github.com/kiresuah/react-calc"><img height="55" src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" alt="github" /></a>
-          <span id="info-tab">Application created by Erik Niehaus</span>
         </div>
       </div>
     );

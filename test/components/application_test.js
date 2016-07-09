@@ -1,11 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
+import { storageMock } from '../test_helper';
 
 import Application from '../../src/components/application';
 
 describe('Application' , () => {
   let component;
+  window.localStorage = storageMock();
 
   const state = {
       display: '',
