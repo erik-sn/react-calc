@@ -26,7 +26,7 @@ app.use(compression()); // compress compatible files for quicker client load tim
 app.use(logger('dev')); // log content
 
 // Set path to public assets
-app.use('/calculator/static', express.static('static'));
+app.use('/calculator/resources', express.static('resources'));
 app.use('/calculator/static', express.static('dist'));
 
 app.use('*', (req, res) => {
