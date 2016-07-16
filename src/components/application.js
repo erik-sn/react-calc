@@ -32,10 +32,10 @@ export default class Application extends Component {
    * to button presses to give calculator functionality.
    */
   componentWillMount() {
-    // const visited = JSON.parse(window.localStorage.getItem('visited')) || false;
-    // if (!visited) {
-    //   this.setState({ showModal: true });
-    // }
+    const visited = JSON.parse(window.localStorage.getItem('visited')) || false;
+    if (!visited) {
+      this.setState({ showModal: true });
+    }
     document.addEventListener('keydown', this.pressDown, false);
     document.addEventListener('keypress', this.press, false);
   }
