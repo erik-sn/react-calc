@@ -20,7 +20,7 @@ import compression from 'compression';
 import http from 'http';
 
 const app = express(); // delcare application
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 app.use(compression()); // compress compatible files for quicker client load time
 app.use(logger('dev')); // log content
@@ -40,7 +40,6 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   const host = server.address().address;
   const port = server.address().port;
-
   console.log('App listening on port', PORT);
 });
 
